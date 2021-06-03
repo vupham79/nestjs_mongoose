@@ -1,4 +1,4 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -8,22 +8,40 @@ import {
 } from 'class-validator';
 
 export class CreateUserDto {
-  // fullName
-  @ApiModelProperty({
+  @ApiProperty({
     example: 'pejman hadavi',
     description: 'The name of the User',
     format: 'string',
-    minLength: 6,
     maxLength: 255,
   })
   @IsNotEmpty()
   @IsString()
-  @MinLength(5)
   @MaxLength(255)
-  readonly fullName: string;
+  readonly firstname: string;
+
+  @ApiProperty({
+    example: 'pejman hadavi',
+    description: 'The name of the User',
+    format: 'string',
+    maxLength: 255,
+  })
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(255)
+  readonly lastname: string;
+
+  @ApiProperty({
+    example: '0906426802',
+    description: 'The phone number of the User',
+    format: 'string',
+    maxLength: 255,
+  })
+  @IsString()
+  @MaxLength(255)
+  readonly phoneNumber: string;
 
   // Email
-  @ApiModelProperty({
+  @ApiProperty({
     example: 'pejman@gmail.com',
     description: 'The email of the User',
     format: 'email',
@@ -39,14 +57,14 @@ export class CreateUserDto {
   readonly email: string;
 
   // Password
-  @ApiModelProperty({
+  @ApiProperty({
     example: 'secret password change me!',
     description: 'The password of the User',
     format: 'string',
     minLength: 5,
     maxLength: 1024,
   })
-  @ApiModelProperty()
+  @ApiProperty()
   @IsNotEmpty()
   @IsString()
   @MinLength(5)

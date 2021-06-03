@@ -1,7 +1,7 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsUUID } from 'class-validator';
 export class VerifyUuidDto {
-  @ApiModelProperty({
+  @ApiProperty({
     description: 'uuid to verify user',
     format: 'uuid',
     uniqueItems: true,

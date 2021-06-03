@@ -1,16 +1,27 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ArticleModule } from './article/article.module';
 import { AuthModule } from './auth/auth.module';
+import { DocumentModule } from './document/document.module';
+import { MailModule } from './mail/mail.module';
+import { SignerModule } from './signer/signer.module';
 import { UserModule } from './user/user.module';
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    ConfigModule.forRoot({
+      isGlobal: true, // no need to import into other modules
+    }),
+    MongooseModule.forRoot(process.env.MONGO_URI, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    }),
     UserModule,
     AuthModule,
-    ArticleModule,
+    DocumentModule,
+    SignerModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

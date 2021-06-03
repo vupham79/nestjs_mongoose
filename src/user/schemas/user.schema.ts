@@ -4,11 +4,19 @@ import * as validator from 'validator';
 
 export const UserSchema = new mongoose.Schema(
   {
-    fullName: {
+    firstname: {
       type: String,
-      minlength: 6,
       maxlength: 255,
-      required: [true, 'NAME_IS_BLANK'],
+      required: [true, 'FIRST_NAME__IS_BLANK'],
+    },
+    lastname: {
+      type: String,
+      maxlength: 255,
+      required: [true, 'LAST_NAME_IS_BLANK'],
+    },
+    phoneNumber: {
+      type: String,
+      maxlength: 32,
     },
     email: {
       type: String,
@@ -17,6 +25,7 @@ export const UserSchema = new mongoose.Schema(
       maxlength: 255,
       minlength: 6,
       required: [true, 'EMAIL_IS_BLANK'],
+      unique: true,
     },
     password: {
       type: String,
@@ -24,38 +33,9 @@ export const UserSchema = new mongoose.Schema(
       maxlength: 1024,
       required: [true, 'PASSWORD_IS_BLANK'],
     },
-    bankAccountNumber: {
-      type: String,
-      maxlength: 32,
-    },
-    bankAccountOwnerName: {
-      type: String,
-      minlength: 6,
-      maxlength: 255,
-    },
     roles: {
       type: [String],
       default: ['user'],
-    },
-    verification: {
-      type: String,
-      validate: validator.isUUID,
-    },
-    verified: {
-      type: Boolean,
-      default: false,
-    },
-    verificationExpires: {
-      type: Date,
-      default: Date.now,
-    },
-    loginAttempts: {
-      type: Number,
-      default: 0,
-    },
-    blockExpires: {
-      type: Date,
-      default: Date.now,
     },
   },
   {
@@ -69,9 +49,7 @@ UserSchema.pre('save', async function(next: mongoose.HookNextFunction) {
     if (!this.isModified('password')) {
       return next();
     }
-    // tslint:disable-next-line:no-string-literal
     const hashed = await bcrypt.hash(this['password'], 10);
-    // tslint:disable-next-line:no-string-literal
     this['password'] = hashed;
     return next();
   } catch (err) {

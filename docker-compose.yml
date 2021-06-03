@@ -6,14 +6,16 @@ services:
     image: mongo
     networks:
       - mongodb_network
+    env_file:
+      - .env
+    volumes:
+      - mongodb-data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: ${DB_PASS}
       MONGO_INITDB_DATABASE: ${DB_NAME}
     ports:
       - 27017:27017
-    volumes:
-      - mongodb-data:/data/db
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongo 10.10.10.60:27017/test --quiet
       interval: 30s
@@ -26,21 +28,21 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_MONGODB_AUTH_DATABASE: ${DB_NAME}
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: 1
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${DB_PASS}
       ME_CONFIG_BASICAUTH_USERNAME: ${DB_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${DB_PASS}
     volumes:
-    - mongodb-data:/data/db
+      - mongodb-data:/data/db
     depends_on:
-    - mongodb
+      - mongodb
     networks:
-    - mongodb_network
+      - mongodb_network
     ports:
-    - 8081:8081
+      - 8081:8081
     healthcheck:
-      test:  wget --quiet --tries=3 --spider http://${DB_USER}:${DB_PASS}@10.10.10.60:8081 || exit 1
+      test: wget --quiet --tries=3 --spider http://${DB_USER}:${DB_PASS}@10.10.10.60:8081 || exit 1
       interval: 30s
       timeout: 10s
       retries: 3

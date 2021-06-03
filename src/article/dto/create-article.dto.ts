@@ -1,8 +1,8 @@
-import { ApiModelProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateArticleDto {
-  @ApiModelProperty({
+  @ApiProperty({
     example: 'Example Title',
     description: 'Title of article',
     format: 'string',
@@ -15,7 +15,7 @@ export class CreateArticleDto {
   @MaxLength(255)
   readonly title: string;
 
-  @ApiModelProperty({
+  @ApiProperty({
     example: 'Body exmaple ...',
     description: 'Main part of article',
     format: 'string',
