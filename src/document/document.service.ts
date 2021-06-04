@@ -76,15 +76,22 @@ export class DocumentService {
   }
 
   async signDocument(signDocumentDto: SignDocumentDto) {
-    await this.documentModel.findOneAndUpdate(
-      {
-        _id: signDocumentDto._id,
-        secret: signDocumentDto.secret,
-      },
-      {
-        signedDocumentUrl: signDocumentDto.signedDocumentUrl,
-        signedAt: Date.now(),
-      },
+    const document = await this.documentModel
+      .findOneAndUpdate(
+        {
+          _id: signDocumentDto._id,
+          secret: signDocumentDto.secret,
+        },
+        {
+          signedDocumentUrl: signDocumentDto.signedDocumentUrl,
+          signedAt: Date.now(),
+        },
+      )
+      .populate('user signer');
+    this.mailService.sendNotifySignedDocument(
+      document.user,
+      document.signer,
+      signDocumentDto.signedDocumentUrl,
     );
   }
 

@@ -10,6 +10,13 @@ export class CreateDocumentDto {
   readonly originalDocumentUrl: string;
 
   @ApiProperty({
+    description: 'Name of document',
+  })
+  @IsNotEmpty()
+  @IsString()
+  readonly filename: string;
+
+  @ApiProperty({
     description: 'Locations of signature',
   })
   @IsNotEmpty()

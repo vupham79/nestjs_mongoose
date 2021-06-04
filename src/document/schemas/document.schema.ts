@@ -13,8 +13,21 @@ export const DocumentSchema = new mongoose.Schema(
       type: String,
       validate: validator.isURL,
     },
+    filename: {
+      type: String,
+      required: [true, 'FILENAME IS BLANK'],
+    },
     tagSignatureLocations: {
-      type: [String],
+      type: [
+        {
+          x: {
+            type: Number,
+          },
+          y: { type: Number },
+          width: { type: Number },
+          height: { type: Number },
+        },
+      ],
       required: [true, 'TAG SIGNATURE LOCATIONS ARE BLANK'],
     },
     isNotifySigner: {

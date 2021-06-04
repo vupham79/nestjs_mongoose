@@ -5,6 +5,35 @@ import { Injectable } from '@nestjs/common';
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
+  async sendNotifySignedDocument(
+    user: any,
+    signer: any,
+    signedDocumentUrl: string,
+  ) {
+    this.mailerService.sendMail({
+      to: user.email,
+      // from: '"Support Team" <support@example.com>', // override default from
+      subject: 'Document Signed!',
+      template: './notifySignedDocument', // `.hbs` extension is appended automatically
+      context: {
+        // ✏️ filling curly brackets with content
+        fullname: `${user.firstname} ${user.lastname}`,
+        signedDocumentUrl,
+      },
+    });
+    this.mailerService.sendMail({
+      to: signer.email,
+      // from: '"Support Team" <support@example.com>', // override default from
+      subject: 'Document Signed!',
+      template: './notifySignedDocument', // `.hbs` extension is appended automatically
+      context: {
+        // ✏️ filling curly brackets with content
+        fullname: `${signer.firstname} ${signer.lastname}`,
+        signedDocumentUrl,
+      },
+    });
+  }
+
   async sendNotifyCreatedDocument(user: any) {
     await this.mailerService.sendMail({
       to: user.email,
