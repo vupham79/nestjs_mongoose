@@ -5,13 +5,17 @@
   <hr>
 </div>
 
-# Getting started
+# Start guide
 
 ## Installation
 
 Install dependencies
 
-npm install
+### `npm install`
+
+---
+
+## Environment
 
 Create a .env file and write as .env.example
 
@@ -24,6 +28,14 @@ Create a .env file and write as .env.example
 The example codebase uses [Mongoose](https://mongoosejs.com/).
 
 ---
+
+## Run
+
+### `npm run start:dev`
+
+Application will be available on http://localhost:[PORT]
+
+# Other informations
 
 # Authentication
 
